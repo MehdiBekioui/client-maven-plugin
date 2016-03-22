@@ -6,11 +6,11 @@ Basically, when you are developing RESTful APIs, you could need to provide a jav
 
 This plugin works with this specific flow:
 
-* Create a pom maven project with maven modules (for example: one for your API and another for your implementation)
+* Create a pom maven project with maven modules (for example: one for your API and another one for your implementation)
 * Develop your API
 * Declare the plugin in your pom parent
 * Run the plugin to generate your client module
-* Build your project with maven
+* Build your project with maven and use your client
 
 ## Plugin declaration
 > Not yet available
@@ -36,7 +36,7 @@ This plugin works with this specific flow:
 
 ## Goal
 
-* `client:generate`: generate the java client
+* `client:generate`: generate the java client or your RESTful API
 
 ## Configuration
 
@@ -47,6 +47,38 @@ This plugin works with this specific flow:
 | clientArtifactId    | true     |                       |
 | clientPrefix        | false    | default: empty string |
 | resourcePackageName | true	 |                       |
+
+## How to use your client in a project
+
+Add the following to your Maven configuration:
+
+```xml
+<dependency>
+	<groupId>com.rest</groupId>
+	<artifactId>rest-client</artifactId>
+	<version>1.0.0</version>
+</dependency>
+```
+
+Add the following to your Spring configuration file:
+
+```java
+@Configuration
+@Import({ RestClientConfig.class })
+public class SpringConfig {
+
+}
+```
+
+Import the client in your class and use it:
+
+```java
+@Component
+public class MyClass {
+	@Autowired
+	private RestClient restClient;
+}
+```
 
 ## License
 	
