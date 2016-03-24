@@ -26,59 +26,55 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class Project {
 
-    public static Builder builder() {
-        return new AutoValue_Project.Builder();
-    }
+	public static Builder builder() {
+		return new AutoValue_Project.Builder();
+	}
 
-    public abstract MavenProject mavenProject();
+	public abstract MavenProject mavenProject();
 
-    public abstract Properties properties();
+	public abstract Properties properties();
 
-    public abstract String clientPackageName();
+	public abstract String clientPackageName();
 
-    public abstract String contextPackageName();
+	public abstract String contextPackageName();
 
-    public abstract String corePackageName();
+	public abstract String apiPackageName();
 
-    public abstract String apiPackageName();
+	public abstract String implPackageName();
 
-    public abstract String implPackageName();
+	public abstract File clientDirectory();
 
-    public abstract File clientDirectory();
+	public abstract File javaSourceDirectory();
 
-    public abstract File javaSourceDirectory();
+	public abstract List<URL> classpaths();
 
-    public abstract List<URL> classpaths();
+	public URL[] classPathsArray() {
+		return classpaths().toArray(new URL[0]);
+	}
 
-    public URL[] classPathsArray() {
-        return classpaths().toArray(new URL[0]);
-    }
+	@AutoValue.Builder
+	public static abstract class Builder {
 
-    @AutoValue.Builder
-    public static abstract class Builder {
+		public abstract Builder mavenProject(MavenProject mavenProject);
 
-        public abstract Builder mavenProject(MavenProject mavenProject);
+		public abstract Builder properties(Properties properties);
 
-        public abstract Builder properties(Properties properties);
+		public abstract Builder clientPackageName(String clientPackageName);
 
-        public abstract Builder clientPackageName(String clientPackageName);
+		public abstract Builder contextPackageName(String contextPackageName);
 
-        public abstract Builder contextPackageName(String contextPackageName);
+		public abstract Builder apiPackageName(String apiPackageName);
 
-        public abstract Builder corePackageName(String corePackageName);
+		public abstract Builder implPackageName(String implPackageName);
 
-        public abstract Builder apiPackageName(String apiPackageName);
+		public abstract Builder clientDirectory(File clientDirectory);
 
-        public abstract Builder implPackageName(String implPackageName);
+		public abstract Builder javaSourceDirectory(File javaSourceDirectory);
 
-        public abstract Builder clientDirectory(File clientDirectory);
+		public abstract Builder classpaths(List<URL> classpaths);
 
-        public abstract Builder javaSourceDirectory(File javaSourceDirectory);
+		public abstract Project build();
 
-        public abstract Builder classpaths(List<URL> classpaths);
-
-        public abstract Project build();
-
-    }
+	}
 
 }

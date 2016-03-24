@@ -19,8 +19,8 @@ import java.io.File;
 
 public interface Constants {
 
-    String SRC_FOLDER = new StringBuilder(13).append("src").append(File.separator).append("main").append(File.separator).append("java").toString();
+	String SRC_FOLDER = new StringBuilder(13).append("src").append(File.separator).append("main").append(File.separator).append("java").toString();
 
-    String FULL_SRC_FOLDER = new StringBuilder(15).append(File.separator).append(SRC_FOLDER).append(File.separator).toString();
+	String FULL_SRC_FOLDER = new StringBuilder(15).append(File.separator).append(SRC_FOLDER).append(File.separator).toString();
 
 }

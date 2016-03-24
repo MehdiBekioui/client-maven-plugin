@@ -30,7 +30,6 @@ import com.bekioui.maven.plugin.client.generator.ClientFactoryGenerator;
 import com.bekioui.maven.plugin.client.generator.ClientGenerator;
 import com.bekioui.maven.plugin.client.generator.ContextGenerator;
 import com.bekioui.maven.plugin.client.generator.PomGenerator;
-import com.bekioui.maven.plugin.client.generator.ResteasyClientFactoryGenerator;
 import com.bekioui.maven.plugin.client.initializer.ProjectInitializer;
 import com.bekioui.maven.plugin.client.inspector.JavaFileInspector;
 import com.bekioui.maven.plugin.client.inspector.ResourceInspector;
@@ -95,10 +94,9 @@ public class ClientMojo extends AbstractMojo {
 		Project project = ProjectInitializer.initialize(mavenProject, properties);
 		PomGenerator.generate(project);
 		ClientConfigGenerator.generate(project);
-		TypeName resteasyClientFactoryType = ResteasyClientFactoryGenerator.generate(project);
 		List<JavaSourceFile> javaSourceFiles = JavaFileInspector.inspect(project, resourcePackageName);
 		List<Resource> resources = ResourceInspector.inspect(project, javaSourceFiles);
-		TypeName clientFactoryType = ClientFactoryGenerator.generate(project, resources, resteasyClientFactoryType);
+		TypeName clientFactoryType = ClientFactoryGenerator.generate(project, resources);
 		List<ContextResource> contextResources = ContextGenerator.generate(project, resources, clientFactoryType);
 		ClientGenerator.generate(project, contextResources, clientFactoryType);
 	}

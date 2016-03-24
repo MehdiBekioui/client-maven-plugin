@@ -36,39 +36,39 @@ import com.squareup.javapoet.TypeSpec;
 
 public class ContextGenerator {
 
-    private static final String CONTEXT_SUFFIX = "Context";
+	private static final String CONTEXT_SUFFIX = "Context";
 
-    public static List<ContextResource> generate(Project project, List<Resource> resources, TypeName clientFactoryType) throws MojoExecutionException {
-        try {
-            List<ContextResource> contextResources = new ArrayList<>(resources.size());
+	public static List<ContextResource> generate(Project project, List<Resource> resources, TypeName clientFactoryType) throws MojoExecutionException {
+		try {
+			List<ContextResource> contextResources = new ArrayList<>(resources.size());
 
-            for (Resource resource : resources) {
-                String className = resource.className() + CONTEXT_SUFFIX;
-                contextResources.add(ContextResource.create(ClassName.get(project.contextPackageName(), className).box(), className, resource));
+			for (Resource resource : resources) {
+				String className = resource.className() + CONTEXT_SUFFIX;
+				contextResources.add(ContextResource.create(ClassName.get(project.contextPackageName(), className).box(), className, resource));
 
-                FieldSpec resourceField = FieldSpec.builder(resource.typeName(), resource.fieldName()) //
-                        .addModifiers(Modifier.PRIVATE, Modifier.FINAL) //
-                        .build();
+				FieldSpec resourceField = FieldSpec.builder(resource.typeName(), resource.fieldName()) //
+						.addModifiers(Modifier.PRIVATE, Modifier.FINAL) //
+						.build();
 
-                MethodSpec constructor = MethodSpec.constructorBuilder() //
-                        .addModifiers(Modifier.PUBLIC) //
-                        .addParameter(ParameterSpec.builder(clientFactoryType, "clientFactory").build()) //
-                        .addStatement("this." + resource.fieldName() + " = clientFactory." + getResourceMethodName(resource) + "()") //
-                        .build();
+				MethodSpec constructor = MethodSpec.constructorBuilder() //
+						.addModifiers(Modifier.PUBLIC) //
+						.addParameter(ParameterSpec.builder(clientFactoryType, "clientFactory").build()) //
+						.addStatement("this." + resource.fieldName() + " = clientFactory." + getResourceMethodName(resource) + "()") //
+						.build();
 
-                TypeSpec clazz = TypeSpec.classBuilder(className) //
-                        .addModifiers(Modifier.PUBLIC) //
-                        .addField(resourceField) //
-                        .addMethod(constructor) //
-                        .addMethods(resource.methods()) //
-                        .build();
+				TypeSpec clazz = TypeSpec.classBuilder(className) //
+						.addModifiers(Modifier.PUBLIC) //
+						.addField(resourceField) //
+						.addMethod(constructor) //
+						.addMethods(resource.methods()) //
+						.build();
 
-                FileGenerator.generate(project, project.contextPackageName(), clazz);
-            }
+				FileGenerator.generate(project, project.contextPackageName(), clazz);
+			}
 
-            return contextResources;
-        } catch (Exception e) {
-            throw new MojoExecutionException("Failed to generate context classes.", e);
-        }
-    }
+			return contextResources;
+		} catch (Exception e) {
+			throw new MojoExecutionException("Failed to generate context classes.", e);
+		}
+	}
 }

@@ -34,58 +34,57 @@ import com.bekioui.maven.plugin.client.model.Properties;
 
 public class ProjectInitializer {
 
-    public static Project initialize(MavenProject mavenProject, Properties properties) throws MojoExecutionException {
-        String clientPackagename = mavenProject.getParent().getGroupId() + ".client";
-        String contextPackageName = clientPackagename + ".context";
-        String corePackageName = clientPackagename + ".core";
-        String apiPackageName = clientPackagename + ".api";
-        String implPackageName = clientPackagename + ".impl";
-        String resourceBasedirPath = mavenProject.getBasedir().getAbsolutePath();
-        String projectBasedirPath = resourceBasedirPath.substring(0, resourceBasedirPath.lastIndexOf(File.separator));
+	@SuppressWarnings("unchecked")
+	public static Project initialize(MavenProject mavenProject, Properties properties) throws MojoExecutionException {
+		String clientPackagename = mavenProject.getParent().getGroupId() + ".client";
+		String contextPackageName = clientPackagename + ".context";
+		String apiPackageName = clientPackagename + ".api";
+		String implPackageName = clientPackagename + ".impl";
+		String resourceBasedirPath = mavenProject.getBasedir().getAbsolutePath();
+		String projectBasedirPath = resourceBasedirPath.substring(0, resourceBasedirPath.lastIndexOf(File.separator));
 
-        File clientDirectory = new File(projectBasedirPath + File.separator + properties.clientArtifactId());
-        if (clientDirectory.exists()) {
-            try {
-                FileUtils.deleteDirectory(clientDirectory);
-            } catch (IOException e) {
-                throw new MojoExecutionException("Failed to delete existing client directory.", e);
-            }
-        }
-        clientDirectory.mkdir();
+		File clientDirectory = new File(projectBasedirPath + File.separator + properties.clientArtifactId());
+		if (clientDirectory.exists()) {
+			try {
+				FileUtils.deleteDirectory(clientDirectory);
+			} catch (IOException e) {
+				throw new MojoExecutionException("Failed to delete existing client directory.", e);
+			}
+		}
+		clientDirectory.mkdir();
 
-        File javaSourceDirectory = new File(resourceBasedirPath + FULL_SRC_FOLDER + properties.resourcePackageName().replaceAll("\\.", File.separator));
-        if (!javaSourceDirectory.isDirectory()) {
-            throw new MojoExecutionException("Java sources directory not found: " + javaSourceDirectory.getAbsolutePath());
-        }
+		File javaSourceDirectory = new File(resourceBasedirPath + FULL_SRC_FOLDER + properties.resourcePackageName().replaceAll("\\.", File.separator));
+		if (!javaSourceDirectory.isDirectory()) {
+			throw new MojoExecutionException("Java sources directory not found: " + javaSourceDirectory.getAbsolutePath());
+		}
 
-        List<String> classpathElements;
-        try {
-            classpathElements = mavenProject.getCompileClasspathElements();
-        } catch (DependencyResolutionRequiredException e) {
-            throw new MojoExecutionException("Failed to get compile classpath elements.", e);
-        }
+		List<String> classpathElements;
+		try {
+			classpathElements = mavenProject.getCompileClasspathElements();
+		} catch (DependencyResolutionRequiredException e) {
+			throw new MojoExecutionException("Failed to get compile classpath elements.", e);
+		}
 
-        List<URL> classpaths = new ArrayList<>();
-        for (String element : classpathElements) {
-            try {
-                classpaths.add(new File(element).toURI().toURL());
-            } catch (MalformedURLException e) {
-                throw new MojoExecutionException(element + " is an invalid classpath element.", e);
-            }
-        }
+		List<URL> classpaths = new ArrayList<>();
+		for (String element : classpathElements) {
+			try {
+				classpaths.add(new File(element).toURI().toURL());
+			} catch (MalformedURLException e) {
+				throw new MojoExecutionException(element + " is an invalid classpath element.", e);
+			}
+		}
 
-        return Project.builder() //
-                .mavenProject(mavenProject) //
-                .properties(properties) //
-                .clientPackageName(clientPackagename) //
-                .contextPackageName(contextPackageName) //
-                .corePackageName(corePackageName) //
-                .apiPackageName(apiPackageName) //
-                .implPackageName(implPackageName) //
-                .clientDirectory(clientDirectory) //
-                .javaSourceDirectory(javaSourceDirectory) //
-                .classpaths(classpaths) //
-                .build();
-    }
+		return Project.builder() //
+				.mavenProject(mavenProject) //
+				.properties(properties) //
+				.clientPackageName(clientPackagename) //
+				.contextPackageName(contextPackageName) //
+				.apiPackageName(apiPackageName) //
+				.implPackageName(implPackageName) //
+				.clientDirectory(clientDirectory) //
+				.javaSourceDirectory(javaSourceDirectory) //
+				.classpaths(classpaths) //
+				.build();
+	}
 
 }

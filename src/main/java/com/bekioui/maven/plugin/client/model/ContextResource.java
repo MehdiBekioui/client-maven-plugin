@@ -21,14 +21,14 @@ import com.squareup.javapoet.TypeName;
 @AutoValue
 public abstract class ContextResource {
 
-    public static ContextResource create(TypeName typeName, String className, Resource resource) {
-        return new AutoValue_ContextResource(typeName, className, resource);
-    }
+	public static ContextResource create(TypeName typeName, String className, Resource resource) {
+		return new AutoValue_ContextResource(typeName, className, resource);
+	}
 
-    public abstract TypeName typeName();
+	public abstract TypeName typeName();
 
-    public abstract String className();
+	public abstract String className();
 
-    public abstract Resource resource();
+	public abstract Resource resource();
 
 }

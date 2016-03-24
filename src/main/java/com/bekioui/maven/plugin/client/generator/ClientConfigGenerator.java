@@ -25,16 +25,16 @@ import com.squareup.javapoet.TypeSpec;
 
 public class ClientConfigGenerator {
 
-    private static final String SPRING_ANNOTATION_PACKAGE_NAME = "org.springframework.context.annotation";
+	private static final String SPRING_ANNOTATION_PACKAGE_NAME = "org.springframework.context.annotation";
 
-    public static void generate(Project project) throws MojoExecutionException {
-        TypeSpec clazz = TypeSpec.interfaceBuilder(project.properties().clientPrefix() + "ClientConfig") //
-                .addModifiers(Modifier.PUBLIC) //
-                .addAnnotation(ClassName.get(SPRING_ANNOTATION_PACKAGE_NAME, "Configuration")) //
-                .addAnnotation(ClassName.get(SPRING_ANNOTATION_PACKAGE_NAME, "ComponentScan")) //
-                .build();
+	public static void generate(Project project) throws MojoExecutionException {
+		TypeSpec clazz = TypeSpec.interfaceBuilder(project.properties().clientPrefix() + "ClientConfig") //
+				.addModifiers(Modifier.PUBLIC) //
+				.addAnnotation(ClassName.get(SPRING_ANNOTATION_PACKAGE_NAME, "Configuration")) //
+				.addAnnotation(ClassName.get(SPRING_ANNOTATION_PACKAGE_NAME, "ComponentScan")) //
+				.build();
 
-        FileGenerator.generate(project, project.clientPackageName(), clazz);
-    }
+		FileGenerator.generate(project, project.clientPackageName(), clazz);
+	}
 
 }

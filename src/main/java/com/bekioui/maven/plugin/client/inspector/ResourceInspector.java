@@ -36,57 +36,57 @@ import com.squareup.javapoet.ParameterSpec;
 
 public class ResourceInspector {
 
-    private static final String ARGUMENT_NAME = "arg";
+	private static final String ARGUMENT_NAME = "arg";
 
-    public static List<Resource> inspect(Project project, List<JavaSourceFile> javaSourceFiles) throws MojoExecutionException {
-        try (URLClassLoader classLoader = new URLClassLoader(project.classPathsArray())) {
-            List<Resource> resources = new ArrayList<>();
+	public static List<Resource> inspect(Project project, List<JavaSourceFile> javaSourceFiles) throws MojoExecutionException {
+		try (URLClassLoader classLoader = new URLClassLoader(project.classPathsArray())) {
+			List<Resource> resources = new ArrayList<>();
 
-            for (JavaSourceFile javaSourceFile : javaSourceFiles) {
-                Class<?> resourceClass = classLoader.loadClass(javaSourceFile.path());
+			for (JavaSourceFile javaSourceFile : javaSourceFiles) {
+				Class<?> resourceClass = classLoader.loadClass(javaSourceFile.path());
 
-                if (!resourceClass.isInterface()) {
-                    continue;
-                }
+				if (!resourceClass.isInterface()) {
+					continue;
+				}
 
-                String resourceFieldName = resourceClass.getSimpleName().substring(0, 1).toLowerCase().concat(resourceClass.getSimpleName().substring(1));
+				String resourceFieldName = resourceClass.getSimpleName().substring(0, 1).toLowerCase().concat(resourceClass.getSimpleName().substring(1));
 
-                List<MethodSpec> methods = new ArrayList<>();
-                for (Method method : resourceClass.getMethods()) {
-                    StringJoiner arguments = new StringJoiner(", ", "(", ")");
-                    List<ParameterSpec> parameters = new ArrayList<>();
-                    int count = 0;
+				List<MethodSpec> methods = new ArrayList<>();
+				for (Method method : resourceClass.getMethods()) {
+					StringJoiner arguments = new StringJoiner(", ", "(", ")");
+					List<ParameterSpec> parameters = new ArrayList<>();
+					int count = 0;
 
-                    for (Type type : method.getGenericParameterTypes()) {
-                        String argument = ARGUMENT_NAME + count++;
-                        arguments.add(argument);
-                        parameters.add(ParameterSpec.builder(type, argument).build());
-                    }
+					for (Type type : method.getGenericParameterTypes()) {
+						String argument = ARGUMENT_NAME + count++;
+						arguments.add(argument);
+						parameters.add(ParameterSpec.builder(type, argument).build());
+					}
 
-                    String statement = (method.getReturnType().equals(void.class) ? "" : "return ") + resourceFieldName + "." + method.getName() + arguments.toString();
+					String statement = (method.getReturnType().equals(void.class) ? "" : "return ") + resourceFieldName + "." + method.getName() + arguments.toString();
 
-                    methods.add(MethodSpec.methodBuilder(method.getName()) //
-                            .addModifiers(Modifier.PUBLIC) //
-                            .returns(method.getGenericReturnType()) //
-                            .addParameters(parameters) //
-                            .addStatement(statement) //
-                            .build());
-                }
+					methods.add(MethodSpec.methodBuilder(method.getName()) //
+							.addModifiers(Modifier.PUBLIC) //
+							.returns(method.getGenericReturnType()) //
+							.addParameters(parameters) //
+							.addStatement(statement) //
+							.build());
+				}
 
-                resources.add(Resource.builder() //
-                        .className(resourceClass.getSimpleName())//
-                        .fieldName(resourceFieldName) //
-                        .typeName(ClassName.get(resourceClass).box()) //
-                        .methods(methods) //
-                        .build());
-            }
+				resources.add(Resource.builder() //
+						.className(resourceClass.getSimpleName())//
+						.fieldName(resourceFieldName) //
+						.typeName(ClassName.get(resourceClass).box()) //
+						.methods(methods) //
+						.build());
+			}
 
-            return resources;
-        } catch (IOException e) {
-            throw new MojoExecutionException("Failed to initialize class loader.", e);
-        } catch (ClassNotFoundException e) {
-            throw new MojoExecutionException("Failed to load class.", e);
-        }
-    }
+			return resources;
+		} catch (IOException e) {
+			throw new MojoExecutionException("Failed to initialize class loader.", e);
+		} catch (ClassNotFoundException e) {
+			throw new MojoExecutionException("Failed to load class.", e);
+		}
+	}
 
 }

@@ -28,13 +28,13 @@ import com.squareup.javapoet.TypeSpec;
 
 public class FileGenerator {
 
-    public static void generate(Project project, String packageName, TypeSpec typeSpec) throws MojoExecutionException {
-        try {
-            JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
-            javaFile.writeTo(new File(project.clientDirectory(), SRC_FOLDER));
-        } catch (IOException e) {
-            throw new MojoExecutionException("Failed to generate file.", e);
-        }
-    }
+	public static void generate(Project project, String packageName, TypeSpec typeSpec) throws MojoExecutionException {
+		try {
+			JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
+			javaFile.writeTo(new File(project.clientDirectory(), SRC_FOLDER));
+		} catch (IOException e) {
+			throw new MojoExecutionException("Failed to generate file.", e);
+		}
+	}
 
 }

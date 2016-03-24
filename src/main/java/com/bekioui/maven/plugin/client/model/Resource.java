@@ -24,31 +24,31 @@ import com.squareup.javapoet.TypeName;
 @AutoValue
 public abstract class Resource {
 
-    public static Builder builder() {
-        return new AutoValue_Resource.Builder();
-    }
+	public static Builder builder() {
+		return new AutoValue_Resource.Builder();
+	}
 
-    public abstract TypeName typeName();
+	public abstract TypeName typeName();
 
-    public abstract String className();
+	public abstract String className();
 
-    public abstract String fieldName();
+	public abstract String fieldName();
 
-    public abstract List<MethodSpec> methods();
+	public abstract List<MethodSpec> methods();
 
-    @AutoValue.Builder
-    public static abstract class Builder {
+	@AutoValue.Builder
+	public static abstract class Builder {
 
-        public abstract Builder typeName(TypeName typeName);
+		public abstract Builder typeName(TypeName typeName);
 
-        public abstract Builder className(String className);
+		public abstract Builder className(String className);
 
-        public abstract Builder fieldName(String fieldName);
+		public abstract Builder fieldName(String fieldName);
 
-        public abstract Builder methods(List<MethodSpec> methods);
+		public abstract Builder methods(List<MethodSpec> methods);
 
-        public abstract Resource build();
+		public abstract Resource build();
 
-    }
+	}
 
 }

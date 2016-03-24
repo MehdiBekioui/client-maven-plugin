@@ -20,35 +20,35 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class Properties {
 
-    public static Builder builder() {
-        return new AutoValue_Properties.Builder();
-    }
+	public static Builder builder() {
+		return new AutoValue_Properties.Builder();
+	}
 
-    public abstract String apiUrl();
+	public abstract String apiUrl();
 
-    public abstract String apiArtifactId();
+	public abstract String apiArtifactId();
 
-    public abstract String clientArtifactId();
+	public abstract String clientArtifactId();
 
-    public abstract String clientPrefix();
+	public abstract String clientPrefix();
 
-    public abstract String resourcePackageName();
+	public abstract String resourcePackageName();
 
-    @AutoValue.Builder
-    public static abstract class Builder {
+	@AutoValue.Builder
+	public static abstract class Builder {
 
-        public abstract Builder apiUrl(String apiUrl);
+		public abstract Builder apiUrl(String apiUrl);
 
-        public abstract Builder apiArtifactId(String apiArtifactId);
+		public abstract Builder apiArtifactId(String apiArtifactId);
 
-        public abstract Builder clientArtifactId(String clientArtifactId);
+		public abstract Builder clientArtifactId(String clientArtifactId);
 
-        public abstract Builder clientPrefix(String clientPrefix);
+		public abstract Builder clientPrefix(String clientPrefix);
 
-        public abstract Builder resourcePackageName(String resourcePackageName);
+		public abstract Builder resourcePackageName(String resourcePackageName);
 
-        public abstract Properties build();
+		public abstract Properties build();
 
-    }
+	}
 
 }

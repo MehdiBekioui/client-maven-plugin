@@ -24,34 +24,34 @@ import com.bekioui.maven.plugin.client.model.Project;
 
 public class JavaFileInspector {
 
-    private static final String JAVA_EXENSION = ".java";
+	private static final String JAVA_EXENSION = ".java";
 
-    public static List<JavaSourceFile> inspect(Project project, String packageName) {
-        return inspect(project.javaSourceDirectory(), packageName);
-    }
+	public static List<JavaSourceFile> inspect(Project project, String packageName) {
+		return inspect(project.javaSourceDirectory(), packageName);
+	}
 
-    private static List<JavaSourceFile> inspect(File folder, String packageName) {
-        List<JavaSourceFile> javaSourceFiles = new ArrayList<>();
+	private static List<JavaSourceFile> inspect(File folder, String packageName) {
+		List<JavaSourceFile> javaSourceFiles = new ArrayList<>();
 
-        for (File file : folder.listFiles()) {
-            if (file.isDirectory()) {
-                javaSourceFiles.addAll(inspect(file, packageName + "." + file.getName()));
-            } else {
-                boolean isJavaFile = false;
-                String path = file.getAbsolutePath();
-                isJavaFile = JAVA_EXENSION.equals(path.substring(path.lastIndexOf("."), path.length()));
-                if (isJavaFile) {
-                    String name = path.substring(path.lastIndexOf(File.separator) + 1, path.length() - JAVA_EXENSION.length());
-                    javaSourceFiles.add(JavaSourceFile.builder() //
-                            .packageName(packageName) //
-                            .name(name) //
-                            .path(packageName + "." + name) //
-                            .build());
-                }
-            }
-        }
+		for (File file : folder.listFiles()) {
+			if (file.isDirectory()) {
+				javaSourceFiles.addAll(inspect(file, packageName + "." + file.getName()));
+			} else {
+				boolean isJavaFile = false;
+				String path = file.getAbsolutePath();
+				isJavaFile = JAVA_EXENSION.equals(path.substring(path.lastIndexOf("."), path.length()));
+				if (isJavaFile) {
+					String name = path.substring(path.lastIndexOf(File.separator) + 1, path.length() - JAVA_EXENSION.length());
+					javaSourceFiles.add(JavaSourceFile.builder() //
+							.packageName(packageName) //
+							.name(name) //
+							.path(packageName + "." + name) //
+							.build());
+				}
+			}
+		}
 
-        return javaSourceFiles;
-    }
+		return javaSourceFiles;
+	}
 
 }
