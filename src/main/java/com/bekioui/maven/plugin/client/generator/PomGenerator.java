@@ -69,7 +69,7 @@ public class PomGenerator {
 		Dependency jaxrsClientDependency = new Dependency();
 		jaxrsClientDependency.setGroupId("com.bekioui.jaxrs");
 		jaxrsClientDependency.setArtifactId("jaxrs-client");
-		jaxrsClientDependency.setVersion("1.0.0");
+		jaxrsClientDependency.setVersion("1.1.0");
 		dependencies.add(jaxrsClientDependency);
 
 		model.setDependencies(dependencies);

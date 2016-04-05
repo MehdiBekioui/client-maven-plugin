@@ -13,7 +13,6 @@ This plugin works with this specific flow:
 * Build your project with maven and use your client
 
 ## Plugin declaration
-> Not yet available
 
 ```xml
 <build>
