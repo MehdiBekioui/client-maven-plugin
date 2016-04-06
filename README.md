@@ -20,7 +20,7 @@ This plugin works with this specific flow:
     <plugin>
       <groupId>com.bekioui.plugin</groupId>
       <artifactId>client-maven-plugin</artifactId>
-	  <version>1.0.0</version>
+	  <version>1.0.1</version>
 	  <configuration>
 	    <apiUrl>http://localhost:8080</apiUrl>
 	    <apiArtifactId>rest-api</apiArtifactId>
